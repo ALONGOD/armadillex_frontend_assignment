@@ -111,6 +111,10 @@ const columns = [
     align: 'center',
     field: 'active',
     sortable: true,
+    sort: (a, b) => {
+      if (a === b) return 0
+      return a ? -1 : 1
+    },
     style: 'width: 100px',
   },
   {
@@ -127,6 +131,10 @@ const columns = [
     align: 'center',
     field: 'providesAiServices',
     sortable: true,
+    sort: (a, b) => {
+      if (a === b) return 0
+      return a ? -1 : 1
+    },
     style: 'width: 100px',
   },
   {
@@ -135,6 +143,10 @@ const columns = [
     align: 'center',
     field: 'isDpfFound',
     sortable: true,
+    sort: (a, b) => {
+      if (a === b) return 0
+      return a ? -1 : 1
+    },
     style: 'width: 100px',
   },
   {
@@ -143,6 +155,9 @@ const columns = [
     align: 'left',
     field: 'dateAdded',
     sortable: true,
+    sort: (a, b) => {
+      return new Date(b) - new Date(a)
+    },
     style: 'width: 120px',
   },
 ]
