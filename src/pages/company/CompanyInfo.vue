@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-none bg-white" style="min-height: 100vh; width: 100vw">
+  <q-page class="q-pa-none">
     <div class="company-header q-pa-xl row items-center" style="border-bottom: 1px solid #eee">
       <div class="col">
         <div class="text-h3 text-weight-bold text-dark q-mb-xs">{{ company?.name }}</div>
@@ -48,19 +48,6 @@
               company?.isDpfFound ? 'Yes' : 'No'
             }}</q-item-section>
           </q-item>
-          <!-- <q-item>
-            <q-item-section avatar><q-icon name="verified_user" /></q-item-section>
-            <q-item-section class="details-label">Status</q-item-section>
-            <q-item-section side class="details-value">
-              <q-chip
-                :color="company?.active ? 'positive' : 'negative'"
-                text-color="white"
-                size="md"
-              >
-                {{ company?.active ? 'Active' : 'Inactive' }}
-              </q-chip>
-            </q-item-section>
-          </q-item> -->
         </q-list>
       </div>
     </div>
@@ -98,12 +85,16 @@ function formatDate(dateString) {
 </script>
 
 <style scoped>
+.q-page {
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow-y: auto;
+}
 .company-header {
-  width: 100vw;
-  max-width: 100vw;
+  width: 100%;
+  max-width: 100%;
   min-height: 120px;
   margin-bottom: 0;
-  background: #fff;
 }
 .company-details-wrapper {
   max-width: 900px;
@@ -111,7 +102,6 @@ function formatDate(dateString) {
   margin-right: auto;
 }
 .company-details-section {
-  background: #fff;
   border: none;
   box-shadow: none;
   margin-left: 0;
