@@ -1,14 +1,26 @@
 <template>
   <q-page class="q-pa-none">
-    <div class="company-header q-pa-xl row items-center" style="border-bottom: 1px solid #eee">
-      <div class="col">
-        <div class="text-h3 text-weight-bold text-dark q-mb-xs">{{ company?.name }}</div>
-        <div class="text-subtitle1 text-grey-7 q-mb-sm">{{ company?.legalName }}</div>
-      </div>
-      <div class="col-auto">
-        <q-chip :color="company?.active ? 'positive' : 'negative'" text-color="white" size="md">
-          {{ company?.active ? 'Active' : 'Inactive' }}
-        </q-chip>
+    <div class="company-header q-pa-xl" style="border-bottom: 1px solid #eee">
+      <q-btn
+        flat
+        color="primary"
+        icon="arrow_back"
+        label="Back"
+        size="md"
+        @click="goBack"
+        aria-label="Back to Companies"
+        class="q-mb-md no-radius-hover"
+      />
+      <div class="row items-center">
+        <div class="col">
+          <div class="text-h3 text-weight-bold text-dark q-mb-xs">{{ company?.name }}</div>
+          <div class="text-subtitle1 text-grey-7 q-mb-sm">{{ company?.legalName }}</div>
+        </div>
+        <div class="col-auto">
+          <q-chip :color="company?.active ? 'positive' : 'negative'" text-color="white" size="md">
+            {{ company?.active ? 'Active' : 'Inactive' }}
+          </q-chip>
+        </div>
       </div>
     </div>
     <div class="q-px-xl q-pt-xl company-details-wrapper">
@@ -55,11 +67,12 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { useCompanies } from 'src/composables/useCompanies'
 
 const route = useRoute()
+const router = useRouter()
 const companyId = computed(() => route.params.id)
 const { companies } = useCompanies()
 
@@ -81,6 +94,10 @@ function formatDate(dateString) {
     month: 'short',
     day: 'numeric',
   })
+}
+
+function goBack() {
+  router.push('/company')
 }
 </script>
 
@@ -136,5 +153,11 @@ function formatDate(dateString) {
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
+}
+
+/* Remove border radius for the back button on hover/focus/active */
+.no-radius-hover .q-btn__wrapper,
+.no-radius-hover .q-focus-helper {
+  border-radius: 0 !important;
 }
 </style>
