@@ -79,6 +79,7 @@ const selectedSuggestion = ref(null)
 const skipped = ref(false)
 const dialog = ref(false)
 
+// TODO: built in js function called random UUID for creating id here
 function generateCompanyId(length = 12) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   let result = ''

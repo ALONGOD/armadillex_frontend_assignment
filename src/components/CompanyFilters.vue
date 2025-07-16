@@ -234,6 +234,8 @@ const filteredCompanies = computed(() => {
 
   return filtered
 })
+// TODO: maybe sent the emit from somewhere in the function instead of watch since it might
+// not be best practice
 
 // Methods
 const getStatusColor = (status) => {

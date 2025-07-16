@@ -11,15 +11,30 @@
         aria-label="Back to Companies"
         class="q-mb-md no-radius-hover"
       />
-      <div class="row items-center">
-        <div class="col">
-          <div class="text-h3 text-weight-bold text-dark q-mb-xs">{{ company?.name }}</div>
-          <div class="text-subtitle1 text-grey-7 q-mb-sm">{{ company?.legalName }}</div>
-        </div>
+      <div class="row items-center q-gutter-xl">
         <div class="col-auto">
-          <q-chip :color="company?.active ? 'positive' : 'negative'" text-color="white" size="md">
-            {{ company?.active ? 'Active' : 'Inactive' }}
-          </q-chip>
+          <q-avatar size="80px" class="company-avatar" color="primary" text-color="white">
+            <template v-if="company?.logo">
+              <img :src="company.logo" alt="Company Logo" />
+            </template>
+            <template v-else>
+              {{ getInitials(company?.name) }}
+            </template>
+          </q-avatar>
+        </div>
+        <div class="col">
+          <div class="text-h3 text-weight-bold text-dark q-mb-xs flex items-center">
+            {{ company?.name }}
+            <q-chip
+              class="q-ml-md"
+              :color="company?.active ? 'positive' : 'negative'"
+              text-color="white"
+              size="md"
+            >
+              {{ company?.active ? 'Active' : 'Inactive' }}
+            </q-chip>
+          </div>
+          <div class="text-subtitle1 text-grey-7 q-mb-sm">{{ company?.legalName }}</div>
         </div>
       </div>
     </div>
@@ -99,6 +114,13 @@ function formatDate(dateString) {
 function goBack() {
   router.push('/company')
 }
+
+function getInitials(name) {
+  if (!name) return ''
+  const words = name.split(' ')
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase()
+  return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+}
 </script>
 
 <style scoped>
@@ -112,6 +134,13 @@ function goBack() {
   max-width: 100%;
   min-height: 120px;
   margin-bottom: 0;
+}
+.company-avatar {
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .company-details-wrapper {
   max-width: 900px;

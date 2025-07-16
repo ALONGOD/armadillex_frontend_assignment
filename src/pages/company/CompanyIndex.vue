@@ -12,6 +12,8 @@
           <q-btn color="primary" icon="add" label="Create Company" @click="openDialog = true" />
         </div>
       </div>
+      TODO: // change function name to- handle company filter //filtered companies replace with
+      filter- event
       <CompanyFilters :companies="companies" @filtered-companies="handleFilteredCompanies" />
       <div class="q-mb-md">
         <div class="text-caption text-grey-6">
