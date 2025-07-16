@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-pa-md">
     <LoadingState v-if="isLoading" message="Loading companies..." />
     <ErrorState v-else-if="error" message="Failed to load companies" @retry="handleRetry" />
     <template v-else>
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useCompanies } from 'src/composables/useCompanies'
 import CompanyTable from 'src/components/CompanyTable.vue'
 import CompanyFilters from 'src/components/CompanyFilters.vue'
@@ -40,6 +40,16 @@ const filteredCompanies = ref([])
 const openDialog = ref(false)
 const queryClient = useQueryClient()
 
+const initializeFilteredCompanies = () => {
+  filteredCompanies.value = companies.value || []
+}
+
+onMounted(() => {
+  if (!isLoading.value && !error.value) {
+    initializeFilteredCompanies()
+  }
+})
+
 const handleCompanyFilter = (companies) => {
   filteredCompanies.value = companies
 }
@@ -47,8 +57,8 @@ const handleRetry = () => {
   window.location.reload()
 }
 const handleCompanyCreated = (newCompany) => {
-  // Add new company to Vue Query cache
   queryClient.setQueryData([QUERY_KEYS.COMPANIES], (old = []) => [newCompany, ...old])
+  initializeFilteredCompanies()
   openDialog.value = false
 }
 </script>

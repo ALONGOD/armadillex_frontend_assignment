@@ -1,84 +1,97 @@
 <template>
-  <q-page class="q-pa-none">
-    <div class="company-header q-pa-xl" style="border-bottom: 1px solid #eee">
-      <q-btn
-        flat
-        color="primary"
-        icon="arrow_back"
-        label="Back"
-        size="md"
-        @click="goBack"
-        aria-label="Back to Companies"
-        class="q-mb-md no-radius-hover"
-      />
-      <div class="row items-center q-gutter-xl">
-        <div class="col-auto">
-          <q-avatar size="80px" class="company-avatar" color="primary" text-color="white">
-            <template v-if="company?.logo">
-              <img :src="company.logo" alt="Company Logo" />
-            </template>
-            <template v-else>
-              {{ getInitials(company?.name) }}
-            </template>
-          </q-avatar>
-        </div>
-        <div class="col">
-          <div class="text-h3 text-weight-bold text-dark q-mb-xs flex items-center">
-            {{ company?.name }}
-            <q-chip
-              class="q-ml-md"
-              :color="company?.active ? 'positive' : 'negative'"
-              text-color="white"
-              size="md"
-            >
-              {{ company?.active ? 'Active' : 'Inactive' }}
-            </q-chip>
+  <div class="company-info-flex">
+    <div class="company-info-left">
+      <!-- Existing content starts -->
+      <q-page class="q-pa-none">
+        <div class="company-header q-pa-xl" style="border-bottom: 1px solid #eee">
+          <q-btn
+            flat
+            color="primary"
+            icon="arrow_back"
+            label="Back"
+            size="md"
+            @click="goBack"
+            aria-label="Back to Companies"
+            class="q-mb-md no-radius-hover"
+          />
+          <div class="row items-center q-gutter-xl">
+            <div class="col-auto">
+              <q-avatar size="80px" class="company-avatar" color="primary" text-color="white">
+                <template v-if="company?.logo">
+                  <img :src="company.logo" alt="Company Logo" />
+                </template>
+                <template v-else>
+                  {{ getInitials(company?.name) }}
+                </template>
+              </q-avatar>
+            </div>
+            <div class="col">
+              <div class="text-h3 text-weight-bold text-dark q-mb-xs flex items-center">
+                {{ company?.name }}
+              </div>
+              <div class="text-subtitle1 text-grey-7 q-mb-sm">{{ company?.legalName }}</div>
+              <q-chip
+                class="q-mb-sm"
+                :color="company?.active ? 'positive' : 'negative'"
+                text-color="white"
+                size="md"
+              >
+                {{ company?.active ? 'Active' : 'Inactive' }}
+              </q-chip>
+            </div>
           </div>
-          <div class="text-subtitle1 text-grey-7 q-mb-sm">{{ company?.legalName }}</div>
         </div>
-      </div>
+        <div class="q-px-xl q-pt-xl company-details-wrapper">
+          <div class="company-details-section q-pb-xl">
+            <div class="text-h5 text-weight-bold q-mb-lg">Company Details</div>
+            <q-list dense class="details-list">
+              <q-item v-if="parentCompany">
+                <q-item-section avatar><q-icon name="business" /></q-item-section>
+                <q-item-section class="details-label">Parent Company</q-item-section>
+                <q-item-section side class="details-value">{{
+                  parentCompany.legalName || parentCompany.name
+                }}</q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar><q-icon name="public" /></q-item-section>
+                <q-item-section class="details-label">Country</q-item-section>
+                <q-item-section side class="details-value">{{ company?.country }}</q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar><q-icon name="event" /></q-item-section>
+                <q-item-section class="details-label">Date Added</q-item-section>
+                <q-item-section side class="details-value">{{
+                  formatDate(company?.dateAdded)
+                }}</q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar><q-icon name="memory" /></q-item-section>
+                <q-item-section class="details-label">AI Services</q-item-section>
+                <q-item-section side class="details-value">{{
+                  company?.providesAiServices ? 'Yes' : 'No'
+                }}</q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section avatar><q-icon name="security" /></q-item-section>
+                <q-item-section class="details-label">DPF Found</q-item-section>
+                <q-item-section side class="details-value">{{
+                  company?.isDpfFound ? 'Yes' : 'No'
+                }}</q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+        </div>
+      </q-page>
+      <!-- Existing content ends -->
     </div>
-    <div class="q-px-xl q-pt-xl company-details-wrapper">
-      <div class="company-details-section q-pb-xl">
-        <div class="text-h5 text-weight-bold q-mb-lg">Company Details</div>
-        <q-list dense class="details-list">
-          <q-item v-if="parentCompany">
-            <q-item-section avatar><q-icon name="business" /></q-item-section>
-            <q-item-section class="details-label">Parent Company</q-item-section>
-            <q-item-section side class="details-value">{{
-              parentCompany.legalName || parentCompany.name
-            }}</q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section avatar><q-icon name="public" /></q-item-section>
-            <q-item-section class="details-label">Country</q-item-section>
-            <q-item-section side class="details-value">{{ company?.country }}</q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section avatar><q-icon name="event" /></q-item-section>
-            <q-item-section class="details-label">Date Added</q-item-section>
-            <q-item-section side class="details-value">{{
-              formatDate(company?.dateAdded)
-            }}</q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section avatar><q-icon name="memory" /></q-item-section>
-            <q-item-section class="details-label">AI Services</q-item-section>
-            <q-item-section side class="details-value">{{
-              company?.providesAiServices ? 'Yes' : 'No'
-            }}</q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section avatar><q-icon name="security" /></q-item-section>
-            <q-item-section class="details-label">DPF Found</q-item-section>
-            <q-item-section side class="details-value">{{
-              company?.isDpfFound ? 'Yes' : 'No'
-            }}</q-item-section>
-          </q-item>
-        </q-list>
-      </div>
+    <div class="company-info-right">
+      <img
+        src="https://res.cloudinary.com/dpoa9lual/image/upload/v1752698092/Screenshot_2025-07-16_at_23.34.39_qnb2rg.png"
+        alt="Corporate Building"
+        class="company-bg-image"
+      />
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script setup>
@@ -119,16 +132,57 @@ function getInitials(name) {
 </script>
 
 <style scoped>
+.company-info-flex {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+.company-info-left {
+  flex: 1 1 50%;
+  min-width: 0;
+  background: transparent;
+  z-index: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.company-info-right {
+  flex: 1 1 50%;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  position: relative;
+  z-index: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.company-bg-image {
+  flex: 1 1 0%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 0;
+}
 .q-page {
   min-height: 0 !important;
   height: 100% !important;
   overflow-y: auto;
 }
 .company-header {
-  width: 100%;
+  width: auto;
   max-width: 100%;
+  min-width: 350px;
   min-height: 120px;
   margin-bottom: 0;
+}
+.company-header .text-h3 {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.1;
+  max-width: 100%;
 }
 .company-avatar {
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
@@ -149,9 +203,38 @@ function getInitials(name) {
   margin-right: 0;
   padding-left: 0;
   padding-right: 0;
+  position: relative;
 }
 .details-list {
   font-size: 1.25rem;
+  border-radius: 8px;
+  overflow: visible;
+  max-width: fit-content;
+  margin-left: 0;
+  margin-right: 0;
+}
+.details-list .q-item__section.details-label {
+  flex: 0 0 200px !important; /* increased width for alignment */
+  margin-right: 80px;
+  text-align: left;
+}
+.details-list .q-item__section.details-value {
+  flex: 0 0 auto !important;
+  margin-left: 0 !important;
+  justify-content: flex-start !important;
+}
+.details-list .q-item {
+  transition: background 0.2s;
+  border-radius: 6px;
+  width: calc(100% - 4px);
+  margin-left: 2px;
+  margin-right: 2px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.details-list .q-item:hover {
+  background: #e0e3e6;
+  border-radius: 6px;
 }
 .details-label {
   font-size: 1.15rem;
