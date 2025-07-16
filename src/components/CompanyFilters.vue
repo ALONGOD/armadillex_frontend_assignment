@@ -101,55 +101,47 @@
         <!-- Active Filters Display -->
         <div v-if="hasActiveFilters" class="q-mt-md">
           <div class="text-caption text-grey-6 q-mb-sm">Active Filters:</div>
-          <div class="row q-col-gutter-xs">
-            <div class="col-auto">
-              <q-chip
-                v-if="filters.search"
-                removable
-                color="primary"
-                text-color="white"
-                @remove="filters.search = ''"
-                size="sm"
-              >
-                Search: "{{ filters.search }}"
-              </q-chip>
-            </div>
-            <div class="col-auto">
-              <q-chip
-                v-if="filters.status"
-                removable
-                :color="filters.status === 'active' ? 'positive' : 'negative'"
-                text-color="white"
-                @remove="filters.status = null"
-                size="sm"
-              >
-                Status: {{ filters.status === 'active' ? 'Active' : 'Inactive' }}
-              </q-chip>
-            </div>
-            <div class="col-auto">
-              <q-chip
-                v-if="filters.aiServices !== null"
-                removable
-                color="blue"
-                text-color="white"
-                @remove="filters.aiServices = null"
-                size="sm"
-              >
-                AI Services: {{ filters.aiServices ? 'Yes' : 'No' }}
-              </q-chip>
-            </div>
-            <div class="col-auto">
-              <q-chip
-                v-if="filters.dpfFound !== null"
-                removable
-                color="orange"
-                text-color="white"
-                @remove="filters.dpfFound = null"
-                size="sm"
-              >
-                DPF Found: {{ filters.dpfFound ? 'Yes' : 'No' }}
-              </q-chip>
-            </div>
+          <div class="active-filters-chips">
+            <q-chip
+              v-if="filters.search"
+              removable
+              color="primary"
+              text-color="white"
+              @remove="filters.search = ''"
+              size="sm"
+            >
+              Search: "{{ filters.search }}"
+            </q-chip>
+            <q-chip
+              v-if="filters.status"
+              removable
+              :color="filters.status === 'active' ? 'positive' : 'negative'"
+              text-color="white"
+              @remove="filters.status = null"
+              size="sm"
+            >
+              Status: {{ filters.status === 'active' ? 'Active' : 'Inactive' }}
+            </q-chip>
+            <q-chip
+              v-if="filters.aiServices !== null"
+              removable
+              color="blue"
+              text-color="white"
+              @remove="filters.aiServices = null"
+              size="sm"
+            >
+              AI Services: {{ filters.aiServices ? 'Yes' : 'No' }}
+            </q-chip>
+            <q-chip
+              v-if="filters.dpfFound !== null"
+              removable
+              color="orange"
+              text-color="white"
+              @remove="filters.dpfFound = null"
+              size="sm"
+            >
+              DPF Found: {{ filters.dpfFound ? 'Yes' : 'No' }}
+            </q-chip>
           </div>
         </div>
       </q-card-section>
@@ -274,5 +266,17 @@ onMounted(() => {
 <style scoped>
 .clear-btn .q-btn__content {
   gap: 4px; /* Reduce space between icon and label */
+}
+.active-filters-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-left: 0;
+  align-items: center;
+}
+.active-filters-chips .q-chip {
+  margin-left: 0;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 </style>
