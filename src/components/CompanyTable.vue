@@ -46,10 +46,7 @@
             />
           </q-td>
           <q-td key="country" :props="props" class="q-pa-md">
-            <div class="row items-center no-wrap">
-              <q-icon name="public" class="q-mr-sm text-grey-6" />
-              <span class="text-grey-9">{{ props.row.country }}</span>
-            </div>
+            <span class="text-grey-9">{{ props.row.country }}</span>
           </q-td>
           <q-td key="aiServices" :props="props" class="q-pa-md text-center">
             <q-icon
