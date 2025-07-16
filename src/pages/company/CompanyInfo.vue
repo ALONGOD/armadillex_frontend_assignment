@@ -262,6 +262,37 @@ function getInitials(name) {
   }
 }
 
+/* Responsive: Hide right image and make left full width on small screens */
+@media (max-width: 600px) {
+  .company-info-flex {
+    flex-direction: column;
+  }
+  .company-info-left {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: 100vw;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .company-info-right {
+    display: none;
+  }
+  .company-header {
+    min-width: 0;
+    padding: 20px 8px !important;
+  }
+  .company-details-wrapper {
+    max-width: 100vw;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .details-list .q-item__section.details-label {
+    flex: 0 0 100px !important;
+    margin-right: 16px;
+  }
+}
+
 /* Remove border radius for the back button on hover/focus/active */
 .no-radius-hover .q-btn__wrapper,
 .no-radius-hover .q-focus-helper {
