@@ -8,7 +8,7 @@
           <div class="col-12 col-md-6 col-lg-3">
             <q-input
               v-model="filters.search"
-              @update:model-value="handleFilterChange"
+              @update:model-value="debouncedHandleFilterChange"
               dense
               outlined
               placeholder="Search companies..."
@@ -159,6 +159,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import debounce from 'lodash/debounce'
 
 // Props
 const props = defineProps({
@@ -261,6 +262,9 @@ const clearFilters = () => {
 const handleFilterChange = () => {
   emit('filter-companies', filteredCompanies.value)
 }
+
+// Debounced handler for search input
+const debouncedHandleFilterChange = debounce(handleFilterChange, 300)
 
 onMounted(() => {
   handleFilterChange()
