@@ -103,20 +103,7 @@ const parentCompany = computed(() => {
 
 function formatDate(dateString) {
   const date = new Date(dateString)
-  const now = new Date()
-  const isToday =
-    date.getDate() === now.getDate() &&
-    date.getMonth() === now.getMonth() &&
-    date.getFullYear() === now.getFullYear()
-  const isThisYear = date.getFullYear() === now.getFullYear()
-  const pad = (n) => n.toString().padStart(2, '0')
-  if (isToday) {
-    return `${pad(date.getHours())}:${pad(date.getMinutes())}`
-  } else if (isThisYear) {
-    return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}`
-  } else {
-    return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear().toString().slice(-2)}`
-  }
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
 }
 
 function goBack() {

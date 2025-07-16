@@ -8,6 +8,7 @@
           <div class="col-12 col-md-6 col-lg-3">
             <q-input
               v-model="filters.search"
+              @update:model-value="handleFilterChange"
               dense
               outlined
               placeholder="Search companies..."
@@ -24,6 +25,7 @@
           <div class="col-12 col-md-6 col-lg-2">
             <q-select
               v-model="filters.status"
+              @update:model-value="handleFilterChange"
               :options="statusOptions"
               dense
               outlined
@@ -43,6 +45,7 @@
           <div class="col-12 col-md-6 col-lg-2">
             <q-select
               v-model="filters.aiServices"
+              @update:model-value="handleFilterChange"
               :options="aiServicesOptions"
               dense
               outlined
@@ -62,6 +65,7 @@
           <div class="col-12 col-md-6 col-lg-2">
             <q-select
               v-model="filters.dpfFound"
+              @update:model-value="handleFilterChange"
               :options="dpfFoundOptions"
               dense
               outlined
@@ -154,7 +158,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 // Props
 const props = defineProps({
@@ -235,9 +239,6 @@ const filteredCompanies = computed(() => {
 
   return filtered
 })
-// TODO: maybe sent the emit from somewhere in the function instead of watch since it might
-// not be
-//  best practice
 
 // Methods
 const getStatusColor = (status) => {
@@ -253,16 +254,17 @@ const clearFilters = () => {
     aiServices: null,
     dpfFound: null,
   }
+  handleFilterChange()
 }
 
-// Watch for changes and emit filtered companies
-watch(
-  filteredCompanies,
-  (newFilteredCompanies) => {
-    emit('filter-companies', newFilteredCompanies)
-  },
-  { immediate: true },
-)
+// Handler to emit filtered companies
+const handleFilterChange = () => {
+  emit('filter-companies', filteredCompanies.value)
+}
+
+onMounted(() => {
+  handleFilterChange()
+})
 </script>
 
 <style scoped>
