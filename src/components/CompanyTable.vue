@@ -120,7 +120,7 @@ const columns = [
   {
     name: 'country',
     label: 'Country',
-    align: 'left',
+    align: 'center',
     field: 'country',
     sortable: true,
     style: 'width: 100px',
@@ -152,13 +152,13 @@ const columns = [
   {
     name: 'dateAdded',
     label: 'Date Added',
-    align: 'left',
+    align: 'center',
     field: 'dateAdded',
     sortable: true,
     sort: (a, b) => {
       return new Date(b) - new Date(a)
     },
-    style: 'width: 120px',
+    style: 'width: 100px',
   },
 ]
 
