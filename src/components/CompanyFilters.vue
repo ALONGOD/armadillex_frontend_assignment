@@ -82,8 +82,9 @@
             <div class="row justify-center">
               <q-btn
                 flat
+                dense
                 color="grey-7"
-                icon="clear_all"
+                icon="delete_sweep"
                 label="Clear"
                 @click="clearFilters"
                 :disable="!hasActiveFilters"
@@ -263,3 +264,9 @@ watch(
   { immediate: true },
 )
 </script>
+
+<style scoped>
+.clear-btn .q-btn__content {
+  gap: 4px; /* Reduce space between icon and label */
+}
+</style>
