@@ -12,9 +12,7 @@
           <q-btn color="primary" icon="add" label="Create Company" @click="openDialog = true" />
         </div>
       </div>
-      TODO: // change function name to- handle company filter //filtered companies replace with
-      filter- event
-      <CompanyFilters :companies="companies" @filtered-companies="handleFilteredCompanies" />
+      <CompanyFilters :companies="companies" @filter-companies="handleCompanyFilter" />
       <div class="q-mb-md">
         <div class="text-caption text-grey-6">
           Showing {{ filteredCompanies.length }} of {{ companies?.length || 0 }} companies
@@ -42,7 +40,7 @@ const filteredCompanies = ref([])
 const openDialog = ref(false)
 const queryClient = useQueryClient()
 
-const handleFilteredCompanies = (companies) => {
+const handleCompanyFilter = (companies) => {
   filteredCompanies.value = companies
 }
 const handleRetry = () => {

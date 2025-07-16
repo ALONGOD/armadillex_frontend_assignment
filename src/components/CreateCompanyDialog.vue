@@ -79,16 +79,6 @@ const selectedSuggestion = ref(null)
 const skipped = ref(false)
 const dialog = ref(false)
 
-// TODO: built in js function called random UUID for creating id here
-function generateCompanyId(length = 12) {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  let result = ''
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length))
-  }
-  return result
-}
-
 watch(
   () => props.modelValue,
   (val) => {
@@ -143,7 +133,7 @@ function createCompany() {
   const name = skipped.value ? companyName.value : selectedSuggestion.value || companyName.value
   const now = new Date()
   const newCompany = {
-    id: generateCompanyId(),
+    id: crypto.randomUUID(),
     active: true,
     name,
     legalName: name,

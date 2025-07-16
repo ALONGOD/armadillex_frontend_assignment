@@ -164,7 +164,7 @@ const props = defineProps({
 })
 
 // Emits
-const emit = defineEmits(['filtered-companies'])
+const emit = defineEmits(['filter-companies'])
 
 // Filter state
 const filters = ref({
@@ -235,7 +235,8 @@ const filteredCompanies = computed(() => {
   return filtered
 })
 // TODO: maybe sent the emit from somewhere in the function instead of watch since it might
-// not be best practice
+// not be
+//  best practice
 
 // Methods
 const getStatusColor = (status) => {
@@ -257,7 +258,7 @@ const clearFilters = () => {
 watch(
   filteredCompanies,
   (newFilteredCompanies) => {
-    emit('filtered-companies', newFilteredCompanies)
+    emit('filter-companies', newFilteredCompanies)
   },
   { immediate: true },
 )
