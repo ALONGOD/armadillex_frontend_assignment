@@ -185,11 +185,11 @@ const sortedCompanies = computed(() => {
 function handleSort(col) {
   if (sortBy.value !== col.name) {
     sortBy.value = col.name
-    sortDesc.value = false // ascending
-  } else if (!sortDesc.value) {
-    sortDesc.value = true // descending
+    sortDesc.value = true // first click: descending
+  } else if (sortDesc.value) {
+    sortDesc.value = false // second click: ascending
   } else {
-    sortBy.value = null // remove sort
+    sortBy.value = null // third click: remove sort
     sortDesc.value = false
   }
 }

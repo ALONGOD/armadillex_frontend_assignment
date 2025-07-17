@@ -29,7 +29,7 @@
               :options="statusOptions"
               dense
               outlined
-              placeholder="Status"
+              label="Status"
               clearable
               emit-value
               map-options
@@ -49,7 +49,7 @@
               :options="aiServicesOptions"
               dense
               outlined
-              placeholder="AI Services"
+              label="AI Services"
               clearable
               emit-value
               map-options
@@ -69,7 +69,7 @@
               :options="dpfFoundOptions"
               dense
               outlined
-              placeholder="DPF Found"
+              label="DPF Found"
               clearable
               emit-value
               map-options
@@ -88,7 +88,7 @@
                 flat
                 dense
                 color="grey-7"
-                icon="delete_sweep"
+                icon="delete"
                 label="Clear"
                 @click="clearFilters"
                 :disable="!hasActiveFilters"
