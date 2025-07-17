@@ -1,7 +1,7 @@
 <template>
   <q-card flat bordered class="bg-white">
     <q-table
-      :rows="companies"
+      :rows="sortedCompanies"
       :columns="columns"
       row-key="id"
       flat
@@ -16,9 +16,15 @@
             v-for="col in props.cols"
             :key="col.name"
             :props="props"
-            class="bg-grey-2 text-weight-medium text-grey-8 q-pa-md"
+            class="bg-grey-2 text-weight-medium text-grey-8 q-pa-md cursor-pointer"
+            @click="handleSort(col)"
+            style="user-select: none"
           >
-            {{ col.label }}
+            <span>{{ col.label }}</span>
+            <span v-if="sortBy === col.name">
+              <q-icon v-if="sortDesc" name="arrow_downward" size="16px" class="q-ml-xs" />
+              <q-icon v-else name="arrow_upward" size="16px" class="q-ml-xs" />
+            </span>
           </q-th>
         </q-tr>
       </template>
@@ -81,11 +87,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { ref, computed } from 'vue'
 
 const router = useRouter()
 
 // Props
-defineProps({
+const props = defineProps({
   companies: {
     type: Array,
     required: true,
@@ -99,7 +106,6 @@ const columns = [
     label: 'Company Name',
     align: 'left',
     field: 'name',
-    sortable: true,
     style: 'min-width: 250px',
   },
   {
@@ -107,11 +113,6 @@ const columns = [
     label: 'Status',
     align: 'center',
     field: 'active',
-    sortable: true,
-    sort: (a, b) => {
-      if (a === b) return 0
-      return a ? -1 : 1
-    },
     style: 'width: 100px',
   },
   {
@@ -119,7 +120,6 @@ const columns = [
     label: 'Country',
     align: 'center',
     field: 'country',
-    sortable: true,
     style: 'width: 100px',
   },
   {
@@ -127,11 +127,6 @@ const columns = [
     label: 'AI Services',
     align: 'center',
     field: 'providesAiServices',
-    sortable: true,
-    sort: (a, b) => {
-      if (a === b) return 0
-      return a ? -1 : 1
-    },
     style: 'width: 100px',
   },
   {
@@ -139,11 +134,6 @@ const columns = [
     label: 'DPF Found',
     align: 'center',
     field: 'isDpfFound',
-    sortable: true,
-    sort: (a, b) => {
-      if (a === b) return 0
-      return a ? -1 : 1
-    },
     style: 'width: 100px',
   },
   {
@@ -151,13 +141,58 @@ const columns = [
     label: 'Date Added',
     align: 'center',
     field: 'dateAdded',
-    sortable: true,
-    sort: (a, b) => {
-      return new Date(b) - new Date(a)
-    },
     style: 'width: 100px',
   },
 ]
+
+// Sorting state
+const sortBy = ref(null)
+const sortDesc = ref(false)
+// Keep a copy of the original order for restoring
+const originalCompanies = computed(() =>
+  props.companies.map((c, i) => ({ ...c, __originalIndex: i })),
+)
+
+// Sorting logic
+const sortedCompanies = computed(() => {
+  if (!sortBy.value) {
+    // Restore original order
+    return originalCompanies.value
+  }
+  const col = columns.find((c) => c.name === sortBy.value)
+  if (!col) return originalCompanies.value
+  const field = col.field
+  return [...originalCompanies.value].sort((a, b) => {
+    let aVal = a[field]
+    let bVal = b[field]
+    // Custom sort for date
+    if (field === 'dateAdded') {
+      aVal = new Date(aVal)
+      bVal = new Date(bVal)
+    }
+    // Boolean sort (true first ascending, false first descending)
+    if (typeof aVal === 'boolean' && typeof bVal === 'boolean') {
+      if (aVal === bVal) return 0
+      return aVal ? (sortDesc.value ? -1 : 1) : sortDesc.value ? 1 : -1
+    }
+    // String/number/date sort
+    if (aVal < bVal) return sortDesc.value ? 1 : -1
+    if (aVal > bVal) return sortDesc.value ? -1 : 1
+    return 0
+  })
+})
+
+function handleSort(col) {
+  if (sortBy.value !== col.name) {
+    sortBy.value = col.name
+    sortDesc.value = false // ascending
+  } else if (!sortDesc.value) {
+    sortDesc.value = true // descending
+  } else {
+    sortBy.value = null // remove sort
+    sortDesc.value = false
+  }
+}
 
 // Methods
 function formatDate(dateString) {

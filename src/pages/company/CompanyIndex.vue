@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md q-mt-md">
     <LoadingState v-if="isLoading" message="Loading companies..." />
     <ErrorState v-else-if="error" message="Failed to load companies" @retry="handleRetry" />
     <template v-else>
